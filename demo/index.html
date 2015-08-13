@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="nested/nested.css" />
     <link rel="stylesheet" type="text/css" href="types/types.css" />
     <link rel="stylesheet" type="text/css" href="advanced/advanced.css" />
+    <link rel="stylesheet" type="text/css" href="../bower_components/drag-drop-webkit-mobile/release/mobile-drag-and-drop-polyfill.css"/>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
     <script src="framework/vendor/prism.js"></script>
@@ -29,6 +30,18 @@
     <script src="nested/nested.js"></script>
     <script src="types/types.js"></script>
     <script src="advanced/advanced.js"></script>
+    <script src="../bower_components/drag-drop-webkit-mobile/release/mobile-drag-and-drop-polyfill.js"></script>
+    <script>
+        MobileDragAndDropPolyfill.Initialize({
+            log: function () {
+                var msg = "dnd-poly: ";
+                for (var i = 0; i < arguments.length; i++) {
+                    msg += arguments[i];
+                }
+                console.log(msg);
+            }
+        });
+    </script>
 
 </head>
 <body ng-app="demo">

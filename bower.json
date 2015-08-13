@@ -26,5 +26,8 @@
     "*.json",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "drag-drop-webkit-mobile": "https://github.com/reppners/ios-html5-drag-drop-shim.git#effectAllowed_dropEffect"
+  }
 }

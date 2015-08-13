@@ -232,6 +232,18 @@ angular.module('dndLists', [])
       var externalSources = attr.dndExternalSources && scope.$eval(attr.dndExternalSources);
 
       /**
+       * The dragenter is triggered prior to the dragover and to allow
+       * a drop the event handler must preventDefault().
+       */
+      element.on('dragenter', function (event) {
+        event = event.originalEvent || event;
+
+        if (!isDropAllowed(event)) return true;
+
+        event.preventDefault();
+      });
+
+      /**
        * The dragover event is triggered "every few hundred milliseconds" while an element
        * is being dragged over our list, or over an child element.
        */
@@ -338,6 +350,7 @@ angular.module('dndLists', [])
 
         // In Chrome on Windows the dropEffect will always be none...
         // We have to determine the actual effect manually from the allowed effects
+        //TODO tested in chrome v44.0.2403.130 on windows 8 - no trouble with dropEffect, can this code be killed then?
         if (event.dataTransfer.dropEffect === "none") {
           if (event.dataTransfer.effectAllowed === "copy" ||
               event.dataTransfer.effectAllowed === "move") {
@@ -381,6 +394,8 @@ angular.module('dndLists', [])
        * works if the child element has position relative. In IE the events are only triggered
        * on the listNode instead of the listNodeItem, therefore the mouse positions are
        * relative to the parent element of targetNode.
+       *
+       * TODO as of https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetY FF.40 will support offsetX/offsetY
        */
       function isMouseInFirstHalf(event, targetNode, relativeToParent) {
         var mousePointer = horizontal ? (event.offsetX || event.layerX)
@@ -476,5 +491,7 @@ angular.module('dndLists', [])
    * whether a drag operation was successful. Therefore we have to maintain it in this global
    * variable. The bug report for that has been open for years:
    * https://code.google.com/p/chromium/issues/detail?id=39399
+   *
+   * //TODO tested in chrome v44.0.2403.130 on windows 8 - no trouble with dropEffect
    */
   .factory('dndDropEffectWorkaround', function(){ return {} });
